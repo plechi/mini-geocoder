@@ -1,6 +1,8 @@
 # Minimal Geocoder
 Minimal Geocoder is a simple Geocoding API based on data from Openstreetmap and a REST interface using Spring Framework.
 
+Background information (in German): [http://blog.plechinger.at/einfaches-geocoding-mit-open-street-map/]().
+
 ##Example:
 
 **Request**:
