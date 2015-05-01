@@ -58,15 +58,7 @@ Import the data:
 osmosis --read-xml file="datafile.osm" --write-apidb host="localhost" database="<dbname>" user="<dbuser>" password="<dbpassword>"  
 ```
 
-To have a better performance you can create indicies for the `hstore` column
-
-```sql
-CREATE INDEX idx_nodes_tags ON nodes USING gist(tags);  
-CREATE INDEX idx_relations_tags ON relations USING gist(tags);  
-CREATE INDEX idx_ways_tags ON ways USING gist(tags);  
-```
-
-With that configuration, a single geocoding operation takes an average of 760ms, reverse geocoding up to 2600ms,
+With that configuration (and additional indices for the hstore columns), a single geocoding operation takes an average of 760ms, reverse geocoding up to 2600ms,
 thats far to long. To speed up things, create a optimized table ad reach about 20 ms for geocoding and 120ms for reverse geocoding.
 
 Performance improvements:
