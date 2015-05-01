@@ -128,7 +128,7 @@ http://localhost:8080/geocode`all{?q,sort}
 
 You can also sort the result by adding the `sort` parameter:
 
-````
+```
 #Sort by city ASC
 http://localhost:8080/geocode?q=<address>&sort=city
 #or
