@@ -55,27 +55,8 @@ public class GeocodeRepository extends JdbcDaoSupport {
             "  country,\n" +
             "  longitude,\n" +
             "  latitude\n" +
-            "FROM (SELECT\n" +
-            "        w.tags -> 'addr:street'      AS street,\n" +
-            "        w.tags -> 'addr:housenumber' AS housenumber,\n" +
-            "        w.tags -> 'addr:postcode'    AS postcode,\n" +
-            "        w.tags -> 'addr:city'        AS city,\n" +
-            "        w.tags -> 'addr:country'     AS country,\n" +
-            "        AVG(ST_X(n.geom))            AS longitude,\n" +
-            "        AVG(ST_Y(n.geom))            AS latitude,\n" +
-            "        concat_ws(' ', w.tags -> 'addr:street',\n" +
-            "                  w.tags -> 'addr:housenumber',\n" +
-            "                  w.tags -> 'addr:postcode',\n" +
-            "                  w.tags -> 'addr:city',\n" +
-            "                  w.tags -> 'addr:country'\n" +
-            "        )                            AS full_text\n" +
-            "      FROM ways w\n" +
-            "        INNER JOIN way_nodes wn ON w.id = wn.way_id\n" +
-            "        INNER JOIN nodes n ON n.id = wn.node_id\n" +
-            "      WHERE exist(w.tags, 'addr:housenumber') AND exist(w.tags, 'addr:street')\n" +
-            "      GROUP BY housenumber, street, postcode, city, country\n" +
-            "     ) geocode\n" +
-            "WHERE to_tsvector(full_text) @@ plainto_tsquery(?) ";
+            "FROM geocode_optimized\n" +
+            "WHERE full_text @@ plainto_tsquery(?) ";
 
     private static final String REVERSE_GEOCODE_SQL = "SELECT\n" +
             "  street,\n" +
@@ -86,20 +67,7 @@ public class GeocodeRepository extends JdbcDaoSupport {
             "  longitude,\n" +
             "  latitude,\n" +
             "  CAST (st_distance_sphere(st_makepoint(longitude,latitude), st_makepoint(?,?)) AS FLOAT) as distance\n" +
-            "FROM (SELECT\n" +
-            "        w.tags -> 'addr:street'      AS street,\n" +
-            "        w.tags -> 'addr:housenumber' AS housenumber,\n" +
-            "        w.tags -> 'addr:postcode'    AS postcode,\n" +
-            "        w.tags -> 'addr:city'        AS city,\n" +
-            "        w.tags -> 'addr:country'     AS country,\n" +
-            "        AVG(ST_X(n.geom))            AS longitude,\n" +
-            "        AVG(ST_Y(n.geom))            AS latitude\n" +
-            "      FROM ways w\n" +
-            "        INNER JOIN way_nodes wn ON w.id = wn.way_id\n" +
-            "        INNER JOIN nodes n ON n.id = wn.node_id\n" +
-            "      WHERE exist(w.tags, 'addr:housenumber') AND exist(w.tags, 'addr:street')\n" +
-            "      GROUP BY housenumber, street, postcode, city, country\n" +
-            "     ) geocode ";
+            "FROM geocode_optimized ";
 
 
     private static final String COUNT_SQL = "SELECT COUNT(*) AS count FROM (%s) counter";

@@ -17,11 +17,10 @@
 package at.plechinger.minigeocode.controller;
 
 import at.plechinger.minigeocode.data.GeocodeResult;
+import at.plechinger.minigeocode.data.ReverseGeocodeResult;
 import at.plechinger.minigeocode.repository.GeocodeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.*;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -37,8 +36,17 @@ public class GeocodeController {
     @Autowired
     private GeocodeRepository geocodeRepository;
 
-
     @RequestMapping
+    public GeocodeResult getGeocodingSingle(@RequestParam(value = "q", required = true) String query) {
+        Slice<GeocodeResult> result= geocodeRepository.findSlice(query, new PageRequest(0, 1, Sort.Direction.ASC, "street", "housenumber"));
+
+        if(result!=null && result.getContent()!=null && !result.getContent().isEmpty()){
+            return result.getContent().get(0);
+        }
+        return null;
+    }
+
+    @RequestMapping("/all")
     public List<GeocodeResult> getGeocoding(@RequestParam(value = "q", required = true) String query, @PageableDefault(sort = {"street", "housenumber"}) Pageable pageable) {
         return geocodeRepository.findAll(query, pageable.getSort());
     }
