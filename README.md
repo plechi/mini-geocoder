@@ -66,6 +66,8 @@ CREATE INDEX idx_ways_tags ON ways USING gist(tags);
 
 ##Run server
 
+Change the database credentials in `src/main/resources/application.properties`.
+
 Run Maven `spring-boot:run`
 
 ```bash
