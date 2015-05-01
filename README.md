@@ -132,7 +132,7 @@ Slicing and Pagination works exactly the same like with geocoding.
 **Reverse Geocode**:
 ````
 #Gives the address with the shortest distance to the given coordinates
-http://localhost:8080/reverse{?lat,lng,sort}
+http://localhost:8080/reverse{?lat,lng}
 
 #Returns All the addresses for the given coordinates:
 http://localhost:8080/reverse/all{?lat,lng,sort}
