@@ -125,4 +125,37 @@ Parameters:
 ```
 http://localhost:8080/geocode/paged{?q,sort,page,size}
 ```
+##Reverse geocoding
 
+Slicing and Pagination works exactly the same like with geocoding.
+
+**Reverse Geocode**:
+````
+#Gives the address with the shortest distance to the given coordinates
+http://localhost:8080/reverse{?lat,lng,sort}
+
+#Returns All the addresses for the given coordinates:
+http://localhost:8080/reverse/all{?lat,lng,sort}
+http://localhost:8080/reverse/sliced{?lat,lng,sort}
+http://localhost:8080/reverse/paged{?lat,lng,sort}
+```
+
+**Request**:
+
+```
+http://localhost:8080/reverse?lat=47.07119&lon=15.437595916
+```
+
+**Result**:
+```json
+{
+    "street" : "Hauptplatz",
+    "housenumber" : "9",
+    "postcode" : "8010",
+    "city" : "Graz",
+    "country" : "AT",
+    "longitude" : 15.43759591666666,
+    "latitude" : 47.071199916666664,
+    "distance" : 1.102684541
+}
+```
