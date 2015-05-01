@@ -75,7 +75,7 @@ Performance improvements:
  - minimize calls of functions and subqueries
  - no hstore queries
 
-**Optimization table**: (you can also find the script in `optimize.sql`
+**Optimization table**: (you can also find the script in `optimize.sql`)
 ```sql
 CREATE TABLE geocode_optimized
 AS SELECT
