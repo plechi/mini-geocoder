@@ -59,7 +59,7 @@ osmosis --read-xml file="datafile.osm" --write-apidb host="localhost" database="
 ```
 
 With that configuration (and additional indices for the hstore columns), a single geocoding operation takes an average of 760ms, reverse geocoding up to 2600ms,
-thats far to long. To speed up things, create a optimized table ad reach about 20 ms for geocoding and 120ms for reverse geocoding.
+thats far to long. To speed things up, a optimized table should be created and this results in about 20 ms for geocoding and 120ms for reverse geocoding.
 
 Performance improvements:
  - precalculated Point for reverse geocoding
