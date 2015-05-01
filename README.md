@@ -136,8 +136,8 @@ http://localhost:8080/reverse{?lat,lng}
 
 #Returns All the addresses for the given coordinates:
 http://localhost:8080/reverse/all{?lat,lng,sort}
-http://localhost:8080/reverse/sliced{?lat,lng,sort}
-http://localhost:8080/reverse/paged{?lat,lng,sort}
+http://localhost:8080/reverse/sliced{?lat,lng,sort,page,size}
+http://localhost:8080/reverse/paged{?lat,lng,sort,page,size}
 ```
 
 **Request**:
