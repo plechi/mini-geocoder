@@ -124,7 +124,7 @@ To get all addresses, call. **Be careful as this query can retrieve thousands of
 
 ```
 http://localhost:8080/geocode`all{?q,sort}
-``
+```
 
 You can also sort the result by adding the `sort` parameter:
 
@@ -140,6 +140,7 @@ http://localhost:8080/geocode?q=<address>&sort=city,DESC
 #Sort by city, DESC and street ASC
 http://localhost:8080/geocode?q=<address>&sort=city,DESC&sort=street,ASC
 ```
+
 ###Pagination and limiting number of results.
 
 To paginate over the results, there are two possibilities:
