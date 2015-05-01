@@ -96,7 +96,7 @@ http://localhost:8080/geocode?q=<address>&sort=city,DESC&sort=street,ASC
 ```
 ###Pagination and limiting number of results.
 
-To paginate over the results, you have two possibilities:
+To paginate over the results, there are two possibilities:
 
 **Slicing**: Separating the Result with no knowledge about the total number of elements.
 
