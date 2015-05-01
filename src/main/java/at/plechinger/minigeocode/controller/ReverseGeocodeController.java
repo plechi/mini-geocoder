@@ -19,9 +19,7 @@ package at.plechinger.minigeocode.controller;
 import at.plechinger.minigeocode.data.ReverseGeocodeResult;
 import at.plechinger.minigeocode.repository.GeocodeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.*;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -35,23 +33,35 @@ import java.util.List;
 public class ReverseGeocodeController {
 
     @Autowired
-    private GeocodeRepository geocodeRepositoryImpl;
+    private GeocodeRepository geocodeRepository;
 
+    @RequestMapping()
+    public ReverseGeocodeResult getSingleGeocoding(
+            @RequestParam(value = "lat", required = true) double latitude,
+            @RequestParam(value = "lon", required = true) double longitude) {
 
-    @RequestMapping
+        Slice<ReverseGeocodeResult> result= geocodeRepository.findReverseSlice(longitude, latitude,new PageRequest(0,1, Sort.Direction.ASC,"distance"));
+
+        if(result!=null && result.getContent()!=null && !result.getContent().isEmpty()){
+            return result.getContent().get(0);
+        }
+        return null;
+    }
+
+    @RequestMapping(value="/all")
     public List<ReverseGeocodeResult> getGeocoding(
             @RequestParam(value = "lat", required = true) double latitude,
             @RequestParam(value = "lon", required = true) double longitude,
             @PageableDefault(sort = {"distance", "street", "housenumber"}) Pageable pageable) {
 
-        return geocodeRepositoryImpl.findReverseAll(longitude, latitude, pageable.getSort());
+        return geocodeRepository.findReverseAll(longitude, latitude, pageable.getSort());
     }
 
     @RequestMapping(value = "/paged")
     public Page<ReverseGeocodeResult> getPagedGeocoding(@RequestParam(value = "lat", required = true) double latitude,
                                                         @RequestParam(value = "lon", required = true) double longitude,
                                                         @PageableDefault(sort = {"distance", "street", "housenumber"}) Pageable pageable) {
-        return geocodeRepositoryImpl.findReversePage(longitude, latitude, pageable);
+        return geocodeRepository.findReversePage(longitude, latitude, pageable);
     }
 
     @RequestMapping(value = "/sliced")
@@ -59,6 +69,6 @@ public class ReverseGeocodeController {
                                                           @RequestParam(value = "lon", required = true) double longitude,
 
                                                           @PageableDefault(sort = {"distance", "street", "housenumber"}) Pageable pageable) {
-        return geocodeRepositoryImpl.findReverseSlice(longitude, latitude, pageable);
+        return geocodeRepository.findReverseSlice(longitude, latitude, pageable);
     }
 }
