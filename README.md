@@ -3,7 +3,7 @@ Minimal Geocoder is a simple Geocoding API based on data from Openstreetmap and 
 
 Background information (in German): http://blog.plechinger.at/einfaches-geocoding-mit-open-street-map/.
 
-##Example:
+## Example:
 
 **Request**:
 
@@ -28,13 +28,13 @@ http://localhost:8080/geocode?q=hauptplatz+graz
 ]
 ```
 
-##Prerequisites
+## Prerequisites
  - Computer with Java >1.7
  - Postgres Server with installed PostGis extension
  
 Installation guide for PostGis: [http://postgis.net/install]()
 
-##Installation
+## Installation
 
 At first you have to create a new database and activate the extensions `hstore` and `postgis`
 
@@ -94,32 +94,28 @@ AS SELECT
 CREATE INDEX idx_geocode_full_text ON geocode_optimized USING GIN (full_text);
 ```
 
-##Run server
+## Run server
 
 Change the database credentials in `src/main/resources/application.properties`.
 
 Run Maven `spring-boot:run`
-
 ```bash
 mvn spring-boot:run
 ```
 
-##Geocode
+## Geocode
 
 To Geocode an address, just call
-
-````
+```
 http://localhost:8080/geocode{?q}
 ```
 
 To get all addresses, call. **Be careful as this query can retrieve thousands of rows.**
-
 ```
 http://localhost:8080/geocode`all{?q,sort}
 ```
 
 You can also sort the result by adding the `sort` parameter:
-
 ```
 #Sort by city ASC
 http://localhost:8080/geocode?q=<address>&sort=city
@@ -133,7 +129,7 @@ http://localhost:8080/geocode?q=<address>&sort=city,DESC
 http://localhost:8080/geocode?q=<address>&sort=city,DESC&sort=street,ASC
 ```
 
-###Pagination and limiting number of results.
+### Pagination and limiting number of results.
 
 To paginate over the results, there are two possibilities:
 
@@ -162,12 +158,14 @@ Parameters:
 ```
 http://localhost:8080/geocode/paged{?q,sort,page,size}
 ```
-##Reverse geocoding
+
+## Reverse geocoding
 
 Slicing and Pagination works exactly the same like with geocoding.
 
 **Reverse Geocode**:
-````
+
+```
 #Gives the address with the shortest distance to the given coordinates
 http://localhost:8080/reverse{?lat,lng}
 
@@ -184,6 +182,7 @@ http://localhost:8080/reverse?lat=47.07119&lon=15.437595916
 ```
 
 **Result**:
+
 ```json
 {
     "street" : "Hauptplatz",
